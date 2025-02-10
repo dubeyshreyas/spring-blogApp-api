@@ -27,13 +27,6 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
-	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserDto user){
-		
-		UserDto createdUser = service.createUser(user);
-		return new ResponseEntity<>(createdUser,HttpStatus.CREATED);
-	}
-	
 	@PutMapping("/{userId}")
 	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto dto, @PathVariable(name = "userId") Integer id){
 		

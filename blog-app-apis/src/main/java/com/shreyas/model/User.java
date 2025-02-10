@@ -29,9 +29,10 @@ public class User {
 	private Integer uid;
 	@Column(length = 20, nullable = false)
 	private String email;
-	@Column(length = 20, nullable = false)
+	@Column(length = 500, nullable = false)
 	private String pass;
 	private String about;
+	private String role;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	List<Post> posts = new ArrayList<>();

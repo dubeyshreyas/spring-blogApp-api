@@ -1,11 +1,14 @@
 package com.shreyas.services;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import com.shreyas.exceptions.ResourceNotFound;
 import com.shreyas.model.Mapper;
 import com.shreyas.model.User;
@@ -15,6 +18,11 @@ import com.shreyas.repo.UserRepo;
 @Service
 public class UserServiceImpl implements UserService {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Autowired
 	Mapper mp;
 	
@@ -61,6 +69,18 @@ public class UserServiceImpl implements UserService {
 		User u =  repo.findById(id).orElseThrow(()-> new ResourceNotFound("user doesn't exist"));
 		repo.delete(u);
 
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		// TODO Auto-generated method stub
+		User user = repo.findByEmail(email).orElseThrow(()-> new ResourceNotFound("no user by this username (email)"));
+		return org.springframework.security.core.userdetails.User
+				.builder()
+				.username(email)
+				.password(user.getPass())
+				.roles(user.getRole())
+				.build();
 	}
 
 }

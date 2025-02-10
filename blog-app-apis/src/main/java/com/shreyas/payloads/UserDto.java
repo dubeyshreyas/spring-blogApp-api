@@ -22,4 +22,5 @@ public class UserDto {
 	private String pass;
 	@NotBlank(message = "add something in about, can't be blanck")
 	private String about;
+	private String role;
 }

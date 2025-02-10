@@ -2,9 +2,11 @@ package com.shreyas.services;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import com.shreyas.payloads.UserDto;
 
-public interface UserService {
+public interface UserService extends UserDetailsService{
 
 	UserDto createUser(UserDto user);
 	UserDto updateUser(UserDto user, Integer id);
