@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
@@ -23,8 +24,10 @@ public class SecurityConfig {
 		return http
 				.csrf(csrf->csrf.disable())
 				.authorizeHttpRequests(auth->auth
-						.requestMatchers("/auth/login", "/auth/register").permitAll()
-			            .requestMatchers("/api/**").authenticated()
+						.requestMatchers("/auth/login", "/auth/register", "/external/**","/actuator/**").permitAll()
+						.requestMatchers("/api/admin/**").hasRole("ADMIN")  // 🔹 Only ADMINs can access
+	                    .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")  // 🔹 Users & Admins can access
+	                    .requestMatchers("/api/**").authenticated()
 			            .anyRequest().denyAll()
 						)
 	            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -41,4 +44,11 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
+	
+	//external api consumption bean 
+	
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 }

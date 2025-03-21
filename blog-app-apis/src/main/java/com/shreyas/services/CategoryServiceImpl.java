@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,9 @@ import com.shreyas.exceptions.ResourceNotFound;
 import com.shreyas.model.Category;
 import com.shreyas.payloads.CategoryDto;
 import com.shreyas.repo.CategoryRepo;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -19,11 +23,14 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryRepo repo;
 	@Autowired
 	private ModelMapper mapper;
+
+	//private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 	
 	@Override
 	public CategoryDto createCategory(CategoryDto dto) {
 		// TODO Auto-generated method stub
 		Category c =  repo.save(mapper.map(dto, Category.class));
+		log.info("this is dummy log for {}:",dto.getCat_name());
 		return mapper.map(c, CategoryDto.class);
 	}
 

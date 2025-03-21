@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shreyas.config.JwtTokenHelper;
+import com.shreyas.model.Role;
 import com.shreyas.payloads.UserDto;
 import com.shreyas.repo.UserRepo;
 import com.shreyas.services.UserService;
@@ -51,13 +52,15 @@ public class AuthController {
 	static class LoginRequest {
 		private String username;
         private String password;
+        private Role role;
 
         // Constructors
         public LoginRequest() {}
 
-        public LoginRequest(String username, String password) {
+        public LoginRequest(String username, String password, Role role) {
             this.username = username;
             this.password = password;
+            this.role = role;
         }
 
         // Getters and Setters
@@ -65,6 +68,15 @@ public class AuthController {
         public void setUsername(String username) { this.username = username; }
         public String getPassword() { return password; }
         public void setPassword(String password) { this.password = password; }
+
+		public Role getRole() {
+			return role;
+		}
+
+		public void setRole(Role role) {
+			this.role = role;
+		}
+        
 	    
 	    
 	}

@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
 				.builder()
 				.username(email)
 				.password(user.getPass())
-				.roles(user.getRole())
+				.roles(user.getRole().name())
 				.build();
 	}
 

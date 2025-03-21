@@ -21,31 +21,31 @@ import com.shreyas.services.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UserController {
 
 	@Autowired
 	private UserService service;
 	
-	@PutMapping("/{userId}")
+	@PutMapping("/users/{userId}")
 	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto dto, @PathVariable(name = "userId") Integer id){
 		
 		UserDto updatedUser = service.updateUser(dto, id);
 		return new ResponseEntity<>(updatedUser,HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/users/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Integer id){
 		service.deleteById(id);
 		return new ResponseEntity<>(Map.of("message","user deleted"),HttpStatus.OK);
 	}
 	
-	@GetMapping("/fetch-all")
+	@GetMapping("/admin/fetch-all")
 	public ResponseEntity<List<UserDto>> getAllUsers(){
 		return ResponseEntity.ok(service.getAll());
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/users/{id}")
 	public ResponseEntity<UserDto> getOne(@PathVariable Integer id){
 		return ResponseEntity.ok(service.getUserById(id));
 	}

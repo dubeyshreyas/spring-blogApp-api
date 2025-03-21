@@ -6,6 +6,8 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +34,8 @@ public class User {
 	@Column(length = 500, nullable = false)
 	private String pass;
 	private String about;
-	private String role;
+	@Enumerated(EnumType.STRING)
+	private Role  role;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	List<Post> posts = new ArrayList<>();
